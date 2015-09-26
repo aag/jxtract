@@ -24,8 +24,7 @@ The output looks like this:
     group of the party of european socialists _ _ _ _
 
 Each underscore is a variable word. The outside underscores can generally be
-cut off, then you are (hopefully) left with collocations. Notice that some 
-of these collocations have holes in the middle of them.
+cut off, then you are (hopefully) left with collocations.
 
 JXtract was implemented as part of a grad school semester project. More
 information about that project is available at
