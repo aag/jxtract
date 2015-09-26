@@ -49,8 +49,8 @@ public class JXtract {
      */
     private static void showHelp() {
         System.out.println("JXtract: a collocation extractor");
-        System.out.println("Usage: java -jar jxtract.jar -source filename [-printfrequencies [-minfrequency frequency]] [-word word]");
-        System.out.println("Example: java -jar jxtract.jar -source ep-00-en.txt -word European");
+        System.out.println("Usage: JXtract -source filename [-printfrequencies [-minfrequency frequency]] [-word word]");
+        System.out.println("Example: JXtract -source ep-00-en.txt -word European");
         System.out.println("");
         System.out.println("Arguments:");
         System.out.println("-source\t\t\tThe corpus file.  Must be English language.");
