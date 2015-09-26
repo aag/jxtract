@@ -27,6 +27,9 @@ Each underscore is a variable word. The outside underscores can generally be
 cut off, then you are (hopefully) left with collocations. Notice that some 
 of these collocations have holes in the middle of them.
 
+JXtract was implemented as part of a grad school semester project. More
+information about that project is available at
+[the project page](http://definingterms.com/projects/Champollion/).
 
 Limitations
 -----------
