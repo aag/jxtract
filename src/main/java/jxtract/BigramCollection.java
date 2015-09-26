@@ -26,10 +26,7 @@ public class BigramCollection {
 	double wFreq;
 
 	/**
-	 * Contructor
-	 * 
-	 * @param w_
-	 *            The word for which bigrams will be collected.
+	 * Constructor
 	 */
 	public BigramCollection() {
 		bigrams = new TreeMap();

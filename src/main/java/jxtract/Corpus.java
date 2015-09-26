@@ -93,7 +93,7 @@ public class Corpus {
 	/**
 	 * This returns a Vector of Strings, where each String is a sentence in the
 	 * Corpus that contains the specified word.
-	 * @param word	The word that is searched for in the corpus.
+	 * @param word_	The word that is searched for in the corpus.
 	 * @return		The Vector of Strings with the sentences.
 	 */
 	public Vector getSentencesWith(String word_){
