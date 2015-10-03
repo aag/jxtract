@@ -91,15 +91,15 @@ public class Corpus {
      * @param word_ The word that is searched for in the corpus.
      * @return The Vector of Strings with the sentences.
      */
-    public Vector getSentencesWith(String word_) {
-        Vector foundSentences = new Vector();
+    public Vector<String> getSentencesWith(String word_) {
+        Vector<String> foundSentences = new Vector();
         // Open the file on the disk
         openFile();
         if (bReader != null) {
-            String record = null;
+            String record;
             try {
                 while ((record = bReader.readLine()) != null) {
-                    if (record.indexOf(" " + word_ + " ") != -1 || record.startsWith(word_ + " ") || record.endsWith(" " + word_)) {
+                    if (record.contains(" " + word_ + " ") || record.startsWith(word_ + " ") || record.endsWith(" " + word_)) {
                         foundSentences.add(record);
                     }
                 }
@@ -124,12 +124,12 @@ public class Corpus {
      * @param distance The distance between them. -5 to -1 and 1 to 5 are valid values.
      * @return A Vector of Strings with one matched sentence per string.
      */
-    public Vector getSentencesWith(String w1, String w2, int distance) {
-        Vector foundSentences = new Vector();
+    public Vector<String> getSentencesWith(String w1, String w2, int distance) {
+        Vector<String> foundSentences = new Vector<>();
         // Open the file on the disk
         openFile();
         if (bReader != null) {
-            String record = null;
+            String record;
             try {
                 while ((record = bReader.readLine()) != null) {
                     //	Remove punctuation

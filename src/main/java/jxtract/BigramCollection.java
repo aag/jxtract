@@ -21,14 +21,14 @@ import java.util.Vector;
  * @author Adam Goforth
  */
 public class BigramCollection {
-    TreeMap bigrams;
+    TreeMap<String, Bigram> bigrams;
     double wFreq;
 
     /**
      * Constructor
      */
     public BigramCollection() {
-        bigrams = new TreeMap();
+        bigrams = new TreeMap<>();
         wFreq = 0;
     }
 
@@ -41,13 +41,10 @@ public class BigramCollection {
      * intuitive.
      *
      * @param s The sentence to be added.
-     * @return <code>true</code> if insert is successful, <code>false</code>
-     * otherwise.
      * @throws Exception If given sentence does not contain the word this
      *                   BigramCollection tracks.
      */
-    public boolean addSentence(String w, String s, boolean includeClosedClass) throws Exception {
-        boolean retVal = false;
+    public void addSentence(String w, String s, boolean includeClosedClass) throws Exception {
         int wIndex = 0;
 
         // Remove punctuation
@@ -97,13 +94,10 @@ public class BigramCollection {
                         bigrams.put(words[i], new Bigram(w, words[i]));
                         //DEBUG System.out.println("Creating bigram " + words[i]);
                     }
-                    ((Bigram) bigrams.get(words[i])).addInstance(i - wIndex);
+                    bigrams.get(words[i]).addInstance(i - wIndex);
                 }
             }
-            retVal = true;
         }
-
-        return retVal;
     }
 
     /**
@@ -123,20 +117,18 @@ public class BigramCollection {
      */
     public double getSigma() {
         double fbar = getFbar();
-        Bigram tempBG = null;
+        Bigram tempBG;
 
         double term1 = (1 / (double) (bigrams.size() - 1));
         double term2 = 0;
-        double x = 0;
+        double x;
 
         // Sum term2
-        Set keys = bigrams.keySet();
+        Set<String> keys = bigrams.keySet();
         // Iterating over all the Bigrams
-        Iterator it = keys.iterator();
-        while (it.hasNext()) {
+        for (String key : keys) {
             // Get Bigram
-            String key = (String) it.next();
-            tempBG = (Bigram) bigrams.get(key);
+            tempBG = bigrams.get(key);
 
             x = tempBG.getFreq() - fbar;
             term2 += x * x;
@@ -163,18 +155,16 @@ public class BigramCollection {
      */
     public String getTable2() {
         String output = "";
-        Bigram tempBG = null;
+        Bigram tempBG;
 
         output = "Freq\tp-5\tp-4\tp-3\tp-2\tp-1\tp1\tp2\tp3\tp4\tp5\tw, wi\n";
 
         //	 Go through all the Bigrams and add their values to the output.
-        Set keys = bigrams.keySet();
+        Set<String> keys = bigrams.keySet();
         // Iterating over all the Bigrams
-        Iterator it = keys.iterator();
-        while (it.hasNext()) {
+        for (String key : keys) {
             // Get Bigram
-            String key = (String) it.next();
-            tempBG = (Bigram) bigrams.get(key);
+            tempBG = bigrams.get(key);
 
             output = output +
                     tempBG.getFreq() + "\t" +
@@ -219,26 +209,24 @@ public class BigramCollection {
      * @return A string containing the table.
      */
     public String getTable4() {
-        String output = "";
-        Bigram tempBG = null;
+        String output;
+        Bigram tempBG;
 
         output = "distance\tstrength\tspread\t\twi\twj\n";
 
         // Go through all the Bigrams and add their values to the output.
-        Set keys = bigrams.keySet();
+        Set<String> keys = bigrams.keySet();
         // Iterating over all the Bigrams
-        Iterator it = keys.iterator();
-        while (it.hasNext()) {
+        for (String key : keys) {
             // Get Bigram
-            String key = (String) it.next();
-            tempBG = (Bigram) bigrams.get(key);
+            tempBG = bigrams.get(key);
 
             if (tempBG.getStrength() > 1 && tempBG.getSpread() > 3) {
                 // Add all the interesting distances to the output
                 String dString = "";
-                Vector distances = tempBG.getDistances(1);
-                for (int i = 0; i < distances.size(); i++) {
-                    dString = dString + distances.get(i) + " ";
+                Vector<Integer> distances = tempBG.getDistances(1);
+                for (Integer distance : distances) {
+                    dString = dString + distance + " ";
                 }
 
                 output = output +
@@ -271,22 +259,20 @@ public class BigramCollection {
      *
      * @return A Vector containing all of the S1Bigrams
      */
-    public Vector getStageOneBigrams(double k0, double k1, double U0) {
+    public Vector<S1Bigram> getStageOneBigrams(double k0, double k1, double U0) {
         // Go through all the Bigrams and if they pass stage one processing, add
         // them to a new Vector
-        Vector passedStage = new Vector();
-        Bigram tempBG = null;
-        Set keys = bigrams.keySet();
+        Vector<S1Bigram> passedStage = new Vector<>();
+        Bigram tempBG;
+        Set<String> keys = bigrams.keySet();
 
         // Iterating over all the Bigrams
-        Iterator it = keys.iterator();
-        while (it.hasNext()) {
+        for (String key : keys) {
             // Get Bigram
-            String key = (String) it.next();
-            tempBG = (Bigram) bigrams.get(key);
+            tempBG = bigrams.get(key);
 
             if (tempBG.getStrength() >= k0 && tempBG.getSpread() >= U0) {
-                Vector distances = tempBG.getDistances(k1);
+                Vector<Integer> distances = tempBG.getDistances(k1);
                 passedStage.add(new S1Bigram(tempBG.getw(), tempBG.getwi(), tempBG.getStrength(), tempBG.getSpread(), distances));
             }
         }
@@ -300,15 +286,13 @@ public class BigramCollection {
         Bigram tempBG = null;
         int pos = 0;
         int[] freqs = new int[10];
-        Vector ngram = new Vector();
+        Vector<String> ngram = new Vector<>();
 
-        Set keys = bigrams.keySet();
+        Set<String> keys = bigrams.keySet();
         // Iterating over all the Bigrams
-        Iterator it = keys.iterator();
-        while (it.hasNext()) {
+        for (String key : keys) {
             // Get Bigram
-            String key = (String) it.next();
-            tempBG = (Bigram) bigrams.get(key);
+            tempBG = bigrams.get(key);
 
             for (int i = 0; i < 10; i++) {
                 if (i < 5) {
@@ -340,11 +324,9 @@ public class BigramCollection {
             }
             // For each position, go through each wi
             // Iterating over all the Bigrams
-            it = keys.iterator();
-            while (it.hasNext()) {
+            for (String key : keys) {
                 // Get Bigram
-                String key = (String) it.next();
-                tempBG = (Bigram) bigrams.get(key);
+                tempBG = bigrams.get(key);
 
                 if ((freqs[i] > 0) && (((double) tempBG.getp(pos) / (double) freqs[i]) > T)) {
                     // Add
@@ -359,8 +341,8 @@ public class BigramCollection {
             }
 
         }
-        for (int i = 0; i < ngram.size(); i++) {
-            System.out.print(ngram.get(i) + " ");
+        for (String aNgram : ngram) {
+            System.out.print(aNgram + " ");
         }
         System.out.println("");
     }
@@ -372,11 +354,7 @@ public class BigramCollection {
      * @return <code>true</code> if the bigram exists, <code>false</code> otherwise.
      */
     private boolean containsBigram(String wi_) {
-        if (bigrams.containsKey(wi_)) {
-            return true;
-        } else {
-            return false;
-        }
+        return bigrams.containsKey(wi_);
     }
 
     /**
@@ -463,7 +441,7 @@ public class BigramCollection {
 
         public double getSpread() {
             double u = 0;
-            double ps = 0;
+            double ps;
 
             for (int i = 0; i < 10; i++) {
                 ps = p[i] - (freq / 10);
@@ -483,9 +461,9 @@ public class BigramCollection {
          * @return A Vector of relative positions to w, in the range of -5 to 5,
          * excluding 0
          */
-        public Vector getDistances(double k1) {
-            Vector distances = new Vector();
-            double minPeak = 0;
+        public Vector<Integer> getDistances(double k1) {
+            Vector<Integer> distances = new Vector<>();
+            double minPeak;
 
             // Equation from Smadja, Step 1.3
             minPeak = (freq / 10) + (k1 * Math.sqrt(getSpread()));
@@ -494,13 +472,13 @@ public class BigramCollection {
             // relative positions
             for (int i = 0; i < 5; i++) {
                 if (p[i] > minPeak) {
-                    distances.add(new Integer(i - 5));
+                    distances.add(i - 5);
                 }
             }
 
             for (int i = 5; i < 10; i++) {
                 if (p[i] > minPeak) {
-                    distances.add(new Integer(i - 4));
+                    distances.add(i - 4);
                 }
             }
 

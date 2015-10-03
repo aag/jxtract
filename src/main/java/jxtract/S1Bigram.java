@@ -19,9 +19,9 @@ public class S1Bigram {
     private String wi;
     private double strength;
     private double spread;
-    private Vector distances;
+    private Vector<Integer> distances;
 
-    public S1Bigram(String w_, String wi_, double strength_, double spread_, Vector distances_) {
+    public S1Bigram(String w_, String wi_, double strength_, double spread_, Vector<Integer> distances_) {
         w = w_;
         wi = wi_;
         strength = strength_;
@@ -45,7 +45,7 @@ public class S1Bigram {
         return spread;
     }
 
-    public Vector getDistances() {
+    public Vector<Integer> getDistances() {
         return distances;
     }
 }

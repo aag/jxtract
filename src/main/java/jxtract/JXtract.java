@@ -69,45 +69,43 @@ public class JXtract {
     private void getCollocations(String w) {
         System.out.println("Finding collocations containing the word " + w);
         w = w.toLowerCase();
-        Vector foundSentences = corpus.getSentencesWith(w);
+        Vector<String> foundSentences = corpus.getSentencesWith(w);
 
         BigramCollection bigrams = new BigramCollection();
         try {
-            for (int i = 0; i < foundSentences.size(); i++) {
+            for (String foundSentence : foundSentences) {
                 //System.out.println("Found sentence: " + foundSentences.get(i));
-                bigrams.addSentence(w, (String) foundSentences.get(i), false);
+                bigrams.addSentence(w, foundSentence, false);
             }
 
         } catch (Exception e) {
             System.out.println(e);
         }
         //System.out.println("\n" + bigrams.getTable4());
-        Vector postStage1 = bigrams.getStageOneBigrams(1, 1, 10);
+        Vector<S1Bigram> postStage1 = bigrams.getStageOneBigrams(1, 1, 10);
 
         //DEBUG System.out.println("w\twi\tstrength\t\tspread\tdistance");
-        for (int i = 0; i < postStage1.size(); i++) {
-            S1Bigram tempBG = (S1Bigram) postStage1.get(i);
-
-            for (int j = 0; j < tempBG.getDistances().size(); j++) {
-                //DEBUG System.out.println(tempBG.getw() + "\t" + tempBG.getwi() + "\t" + tempBG.getStrength() + "\t" + tempBG.getSpread() + "\t" + tempBG.getDistances().get(j));
-                Vector stage2sentences = corpus.getSentencesWith(
-                        tempBG.getw(),
-                        tempBG.getwi(),
-                        ((Integer) tempBG.getDistances().get(j)).intValue()
+        for (S1Bigram aPostStage1 : postStage1) {
+            for (int j = 0; j < aPostStage1.getDistances().size(); j++) {
+                //DEBUG System.out.println(aPostStage1.getw() + "\t" + aPostStage1.getwi() + "\t" + aPostStage1.getStrength() + "\t" + aPostStage1.getSpread() + "\t" + aPostStage1.getDistances().get(j));
+                Vector<String> stage2sentences = corpus.getSentencesWith(
+                        aPostStage1.getw(),
+                        aPostStage1.getwi(),
+                        (Integer) aPostStage1.getDistances().get(j)
                 );
                 BigramCollection s2bigrams = new BigramCollection();
 
                 // Add all sentences with this bigram to a collection
                 try {
-                    for (int k = 0; k < stage2sentences.size(); k++) {
+                    for (String stage2sentence : stage2sentences) {
                         //System.out.println("Found sentence: " + stage2sentences.get(k));
-                        s2bigrams.addSentence(w, (String) stage2sentences.get(k), true);
+                        s2bigrams.addSentence(w, stage2sentence, true);
                     }
                 } catch (Exception e) {
                     System.out.println(e);
                 }
                 //System.out.println("\n" + s2bigrams.getTable2());
-                //System.out.println("^-- " + tempBG.getw() + " " + tempBG.getwi());
+                //System.out.println("^-- " + aPostStage1.getw() + " " + aPostStage1.getwi());
                 s2bigrams.stage2(0.75);
                 //System.out.println(" ");
             }
