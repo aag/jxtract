@@ -79,7 +79,7 @@ public class JXtract {
             }
 
         } catch (Exception e) {
-            System.out.println(e);
+            e.printStackTrace();
         }
         //System.out.println("\n" + bigrams.getTable4());
         Vector<S1Bigram> postStage1 = bigrams.getStageOneBigrams(1, 1, 10);
@@ -91,7 +91,7 @@ public class JXtract {
                 Vector<String> stage2sentences = corpus.getSentencesWith(
                         aPostStage1.getw(),
                         aPostStage1.getwi(),
-                        (Integer) aPostStage1.getDistances().get(j)
+                        aPostStage1.getDistances().get(j)
                 );
                 BigramCollection s2bigrams = new BigramCollection();
 
@@ -102,7 +102,7 @@ public class JXtract {
                         s2bigrams.addSentence(w, stage2sentence, true);
                     }
                 } catch (Exception e) {
-                    System.out.println(e);
+                    e.printStackTrace();
                 }
                 //System.out.println("\n" + s2bigrams.getTable2());
                 //System.out.println("^-- " + aPostStage1.getw() + " " + aPostStage1.getwi());
@@ -119,10 +119,9 @@ public class JXtract {
      * Print frequent words in the corpus
      */
     private void printFrequentWords(int freq) {
-        Vector words = new Vector();
-        words = corpus.getFrequentWords(freq);
-        for (int i = 0; i < words.size(); i++) {
-            System.out.println(words.get(i));
+        Vector<String> words = corpus.getFrequentWords(freq);
+        for (String word1 : words) {
+            System.out.println(word1);
         }
     }
 

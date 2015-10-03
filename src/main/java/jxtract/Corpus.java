@@ -20,7 +20,6 @@ public class Corpus {
     String filename;
     File f;
     FileInputStream fis;
-    BufferedInputStream bis;
     BufferedReader bReader;
 
     /**
@@ -43,7 +42,7 @@ public class Corpus {
     public boolean openFile() {
         f = null;
         fis = null;
-        BufferedInputStream bis = null;
+        BufferedInputStream bis;
         bReader = null;
 
         boolean retVal = true;
@@ -92,7 +91,7 @@ public class Corpus {
      * @return The Vector of Strings with the sentences.
      */
     public Vector<String> getSentencesWith(String word_) {
-        Vector<String> foundSentences = new Vector();
+        Vector<String> foundSentences = new Vector<>();
         // Open the file on the disk
         openFile();
         if (bReader != null) {
@@ -133,7 +132,7 @@ public class Corpus {
             try {
                 while ((record = bReader.readLine()) != null) {
                     //	Remove punctuation
-                    record = record.replaceAll(" (\\.|\\!|\\?|\\,|\\;|\\:|\\-|\\(|\\)|\\\"|\\%|\\#)", "");
+                    record = record.replaceAll(" (\\.|!|\\?|,|;|:|\\-|\\(|\\)|\"|%|#)", "");
 
                     //  Split the sentence up into "words" (characters separated by at least one space)
                     String[] words = record.split(" ");
@@ -192,14 +191,14 @@ public class Corpus {
         } // End printLines()
     }
 
-    public Vector getFrequentWords(int minFrequency) {
-        Vector freqWords = new Vector();
+    public Vector<String> getFrequentWords(int minFrequency) {
+        Vector<String> freqWords = new Vector<>();
         // Define a Map and create a HashMap
-        Map map = new HashMap();
-        final Integer ONE = new Integer(1);
+        Map<String, Integer> map = new HashMap<>();
+        final Integer ONE = 1;
 
         openFile();
-        String record = null;
+        String record;
 
         try {
             while ((record = bReader.readLine()) != null) {
@@ -212,19 +211,18 @@ public class Corpus {
                     // Get word
                     String key = tokenizer.nextToken();
 
-                    if (!key.matches("(\\.|\\!|\\?|\\,|\\;|\\:|\\-|\\(|\\)|\\\"|\\%|\\#|\\'s)")) {
+                    if (!key.matches("(\\.|!|\\?|,|;|:|\\-|\\(|\\)|\"|%|#|'s)")) {
 
                         if (!key.matches("(was|am|has|the|a|and|be|but|by|can|such|could|do|for|have|him|her|i|is|we|he|she|it|may|might|mine|must|need|no|not|nor|none|our|where|whether|while|which|you|your|to|of|on|with|in|so|or|my|its|if|his|hers|as|an|at|this|they|there|then|that|are|would|who|whom|them|each|from|ourselves|when|these)")) {
                             // Get frequency
                             // If not found, add word to map with count one
                             // Otherwise, add to map with old count + 1
 
-                            Integer frequency = (Integer) map.get(key);
+                            Integer frequency = map.get(key);
                             if (frequency == null) {
                                 frequency = ONE;
                             } else {
-                                int value = frequency.intValue();
-                                frequency = new Integer(value + 1);
+                                frequency = frequency + 1;
                             }
                             map.put(key, frequency);
                         }
@@ -237,13 +235,13 @@ public class Corpus {
         }
 
         // Pull out the frequent words and add them to freqWords
-        Set keys = map.keySet();
+        Set<String> keys = map.keySet();
         Iterator it = keys.iterator();
-        int theFreq = 0;
+        int theFreq;
         while (it.hasNext()) {
             // Get Bigram
             String key = (String) it.next();
-            theFreq = ((Integer) map.get(key)).intValue();
+            theFreq = map.get(key);
 
             if (theFreq >= minFrequency) {
                 //DEBUG freqWords.add(key + " " + theFreq);

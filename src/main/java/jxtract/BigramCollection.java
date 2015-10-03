@@ -7,7 +7,6 @@
  */
 package jxtract;
 
-import java.util.Iterator;
 import java.util.Set;
 import java.util.TreeMap;
 import java.util.Vector;
@@ -48,7 +47,7 @@ public class BigramCollection {
         int wIndex = 0;
 
         // Remove punctuation
-        s = s.replaceAll(" (\\.|\\!|\\?|\\,|\\;|\\:|\\-|\\(|\\)|\\\"|\\%|\\#)", "");
+        s = s.replaceAll(" (\\.|!|\\?|,|;|:|\\-|\\(|\\)|\"|%|#)", "");
 
         //DEBUG System.out.println("Cleaned sentence: " + s);
 
@@ -154,7 +153,7 @@ public class BigramCollection {
      * @return The String containing the table-format contents of the bigrams.
      */
     public String getTable2() {
-        String output = "";
+        String output;
         Bigram tempBG;
 
         output = "Freq\tp-5\tp-4\tp-3\tp-2\tp-1\tp1\tp2\tp3\tp4\tp5\tw, wi\n";
@@ -330,7 +329,7 @@ public class BigramCollection {
 
                 if ((freqs[i] > 0) && (((double) tempBG.getp(pos) / (double) freqs[i]) > T)) {
                     // Add
-                    double frequency = (double) tempBG.getp(pos) / (double) freqs[i];
+                    //double frequency = (double) tempBG.getp(pos) / (double) freqs[i];
                     //DEBUG System.out.println("Adding " + tempBG.getwi() + ", frequency: " + frequency);
                     ngram.add(tempBG.getwi());
                     addedWord = true;
