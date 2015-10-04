@@ -7,6 +7,7 @@
  */
 package jxtract;
 
+import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
 import java.util.Vector;
@@ -123,23 +124,12 @@ public class BigramCollection {
         double x;
 
         // Sum term2
-        Set<String> keys = bigrams.keySet();
+        Set<Map.Entry<String, Bigram>> entries = bigrams.entrySet();
         // Iterating over all the Bigrams
-        for (String key : keys) {
-            // Get Bigram
-            tempBG = bigrams.get(key);
-
-            x = tempBG.getFreq() - fbar;
+        for (Map.Entry<String, Bigram> entry : entries) {
+            x = entry.getValue().getFreq() - fbar;
             term2 += x * x;
         }
-
-	    /* Java 5.0 Syntax - Refactored to above
-        for ( Object key : bigrams.keySet() ){
-			tempBG = ((Bigram)bigrams.get(key));
-			
-			x = tempBG.getFreq() - fbar;
-			term2 += x*x;
-		} */
 
         // This should be the standard deviation. Implementation of a formula
         // from Wikipedia
@@ -158,12 +148,13 @@ public class BigramCollection {
 
         output = "Freq\tp-5\tp-4\tp-3\tp-2\tp-1\tp1\tp2\tp3\tp4\tp5\tw, wi\n";
 
-        //	 Go through all the Bigrams and add their values to the output.
-        Set<String> keys = bigrams.keySet();
+        // Go through all the Bigrams and add their values to the output.
+        Set<Map.Entry<String, Bigram>> entries = bigrams.entrySet();
         // Iterating over all the Bigrams
-        for (String key : keys) {
+        // Iterating over all the Bigrams
+        for (Map.Entry<String, Bigram> entry : entries) {
             // Get Bigram
-            tempBG = bigrams.get(key);
+            tempBG = entry.getValue();
 
             output = output +
                     tempBG.getFreq() + "\t" +
@@ -179,24 +170,6 @@ public class BigramCollection {
                     tempBG.getp(5) + "\t" +
                     tempBG.getw() + ", " + tempBG.getwi() + "\n";
         }
-		
-		/* Java 5.0 Syntax - Refactored to above
-		for ( Object key : bigrams.keySet()){
-			tempBG = ((Bigram)bigrams.get(key));
-			output = output +
-					 tempBG.getFreq() + "\t" + 
-					 tempBG.getp(-5) + "\t" + 
-					 tempBG.getp(-4) + "\t" + 
-					 tempBG.getp(-3) + "\t" + 
-					 tempBG.getp(-2) + "\t" + 
-					 tempBG.getp(-1) + "\t" + 
-					 tempBG.getp(1) + "\t" + 
-					 tempBG.getp(2) + "\t" + 
-					 tempBG.getp(3) + "\t" + 
-					 tempBG.getp(4) + "\t" + 
-					 tempBG.getp(5) + "\t" +
-					 w + ", " + tempBG.getwi() + "\n";
-		} */
 
         return output;
     } // End getTable
@@ -214,11 +187,11 @@ public class BigramCollection {
         output = "distance\tstrength\tspread\t\twi\twj\n";
 
         // Go through all the Bigrams and add their values to the output.
-        Set<String> keys = bigrams.keySet();
+        Set<Map.Entry<String, Bigram>> entries = bigrams.entrySet();
         // Iterating over all the Bigrams
-        for (String key : keys) {
+        for (Map.Entry<String, Bigram> entry : entries) {
             // Get Bigram
-            tempBG = bigrams.get(key);
+            tempBG = entry.getValue();
 
             if (tempBG.getStrength() > 1 && tempBG.getSpread() > 3) {
                 // Add all the interesting distances to the output
@@ -235,19 +208,6 @@ public class BigramCollection {
                         tempBG.getw() + ", " + tempBG.getwi() + "\n";
             }
         }
-		
-		
-	    /* Java 5.0 Syntax - Refactored to above
-		for ( Object key : bigrams.keySet()){
-			tempBG = ((Bigram)bigrams.get(key));
-			if (tempBG.getStrength() > 1 && tempBG.getVariance() > 3){
-				output = output +
-				"1" + "\t\t" + 
-				(int)tempBG.getStrength() + "\t\t" +
-				 tempBG.getVariance() + "\t\t" +
-				 w + ", " + tempBG.getwi() + "\n";
-			}
-		} */
 
         return output;
     }
@@ -263,12 +223,12 @@ public class BigramCollection {
         // them to a new Vector
         Vector<S1Bigram> passedStage = new Vector<>();
         Bigram tempBG;
-        Set<String> keys = bigrams.keySet();
+        Set<Map.Entry<String, Bigram>> entries = bigrams.entrySet();
 
         // Iterating over all the Bigrams
-        for (String key : keys) {
+        for (Map.Entry<String, Bigram> entry : entries) {
             // Get Bigram
-            tempBG = bigrams.get(key);
+            tempBG = entry.getValue();
 
             if (tempBG.getStrength() >= k0 && tempBG.getSpread() >= U0) {
                 Vector<Integer> distances = tempBG.getDistances(k1);
@@ -287,11 +247,11 @@ public class BigramCollection {
         int[] freqs = new int[10];
         Vector<String> ngram = new Vector<>();
 
-        Set<String> keys = bigrams.keySet();
+        Set<Map.Entry<String, Bigram>> entries = bigrams.entrySet();
         // Iterating over all the Bigrams
-        for (String key : keys) {
+        for (Map.Entry<String, Bigram> entry : entries) {
             // Get Bigram
-            tempBG = bigrams.get(key);
+            tempBG = entry.getValue();
 
             for (int i = 0; i < 10; i++) {
                 if (i < 5) {
@@ -323,9 +283,9 @@ public class BigramCollection {
             }
             // For each position, go through each wi
             // Iterating over all the Bigrams
-            for (String key : keys) {
+            for (Map.Entry<String, Bigram> entry : entries) {
                 // Get Bigram
-                tempBG = bigrams.get(key);
+                tempBG = entry.getValue();
 
                 if ((freqs[i] > 0) && (((double) tempBG.getp(pos) / (double) freqs[i]) > T)) {
                     // Add
