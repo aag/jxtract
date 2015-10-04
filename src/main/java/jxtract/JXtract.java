@@ -132,16 +132,24 @@ public class JXtract {
      */
     public void parseProgArgs(String[] args) {
         for (int i = 0; i < args.length; i++) {
-            if (args[i].equals("-printfrequencies")) {
-                getFrequencies = true;
-            } else if (args[i].equals("-minfrequency")) {
-                minFrequency = Integer.parseInt(args[i + 1]);
-            } else if (args[i].equals("-source")) {
-                sourcefilename = args[i + 1];
-            } else if (args[i].equals("-word")) {
-                word = args[i + 1];
-            } else if (args[i].equals("-h") || args[i].equals("-help") || args[i].equals("--help")) {
-                showHelp = true;
+            switch (args[i]) {
+                case "-printfrequencies":
+                    getFrequencies = true;
+                    break;
+                case "-minfrequency":
+                    minFrequency = Integer.parseInt(args[i + 1]);
+                    break;
+                case "-source":
+                    sourcefilename = args[i + 1];
+                    break;
+                case "-word":
+                    word = args[i + 1];
+                    break;
+                case "-h":
+                case "-help":
+                case "--help":
+                    showHelp = true;
+                    break;
             }
         }
 
