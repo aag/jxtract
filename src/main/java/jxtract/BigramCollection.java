@@ -14,7 +14,7 @@ import java.util.Vector;
 
 
 /**
- * BigramCollection is the datastructure that contains information about a word
+ * BigramCollection is the data structure that contains information about a word
  * and all of the bigrams that are within a distance of 5 words from it in any
  * sentence in the corpus.
  *
@@ -150,8 +150,7 @@ public class BigramCollection {
 
         // Go through all the Bigrams and add their values to the output.
         Set<Map.Entry<String, Bigram>> entries = bigrams.entrySet();
-        // Iterating over all the Bigrams
-        // Iterating over all the Bigrams
+
         for (Map.Entry<String, Bigram> entry : entries) {
             // Get Bigram
             tempBG = entry.getValue();
@@ -188,7 +187,7 @@ public class BigramCollection {
 
         // Go through all the Bigrams and add their values to the output.
         Set<Map.Entry<String, Bigram>> entries = bigrams.entrySet();
-        // Iterating over all the Bigrams
+
         for (Map.Entry<String, Bigram> entry : entries) {
             // Get Bigram
             tempBG = entry.getValue();
@@ -240,7 +239,7 @@ public class BigramCollection {
     }
 
     public void stage2(double T) {
-        // Go through all the bigrams and calculate the total occurances of each
+        // Go through all the bigrams and calculate the total occurrences of each
         // position
         Bigram tempBG = null;
         int pos = 0;
@@ -415,7 +414,7 @@ public class BigramCollection {
          * considered "interesting" as defined by equation C3 in Smadja, Step
          * 1.3
          *
-         * @param k1 The threshhold above which which distances are considered
+         * @param k1 The threshold above which which distances are considered
          *           interesting. Smadja recommends 1.
          * @return A Vector of relative positions to w, in the range of -5 to 5,
          * excluding 0

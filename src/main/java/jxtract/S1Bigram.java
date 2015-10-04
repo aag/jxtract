@@ -1,7 +1,6 @@
 /**
  * S1Bigram.java
  * <p/>
- * <p/>
  * Written by: Adam Goforth
  * Started on: Dec 6, 2005
  */
