@@ -36,6 +36,9 @@ The original Xtract uses a Part of Speech tagger and a parser to both
 increase accuracy and create phrasal templates. JXtract is self contained,
 and does not have these features.
 
+Note: this software was written as a student project over a few days in 2005
+for the Natural Language Processing course EECS 595 at the University of
+Michigan. It might be useful or interesting, but it almost certainly has bugs.
 
 Usage
 -----
