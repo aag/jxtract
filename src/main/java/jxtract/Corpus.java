@@ -1,6 +1,6 @@
-/**
+/*
  * Corpus.java
- * <p/>
+ *
  * Written by: Adam Goforth
  * Started on: Dec 4, 2005
  */
@@ -11,7 +11,7 @@ import java.util.*;
 
 
 /**
- * This class represents one or more text files that make up a corpus.
+ * The Corpus class represents one or more text files that make up a corpus.
  *
  * @author Adam Goforth
  */
@@ -168,28 +168,6 @@ public class Corpus {
         closeFile();
         return foundSentences;
     } // End getSentencesWith(String w1, String w2, int distance)
-
-    /**
-     * Count all the lines in the corpus and print to System.out.
-     */
-    public void countLines() {
-        if (bReader != null) {
-
-            String record = null;
-            int recCount = 0;
-
-            try {
-                while ((record = bReader.readLine()) != null) {
-                    recCount++;
-                    // System.out.println(recCount + ": " + record);
-                }
-            } catch (IOException e) {
-                // Catch IO errors from FileInputStream
-                System.out.println("Error reading file: " + e.getMessage());
-            }
-            System.out.println("Lines: " + recCount);
-        } // End printLines()
-    }
 
     public Vector<String> getFrequentWords(int minFrequency) {
         Vector<String> freqWords = new Vector<>();

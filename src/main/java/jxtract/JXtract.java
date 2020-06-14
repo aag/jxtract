@@ -1,9 +1,9 @@
-/**
+/*
  * JXtract.java
  * JXtract is a Java implementation of the Xtract
  * tool described by Frank Smadja in his 1993
  * ACL paper "Retrieving Collocations from Text: Xtract"
- * <p/>
+ *
  * Written by: Adam Goforth
  * Started on: Dec 4, 2005
  */
