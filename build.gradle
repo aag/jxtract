@@ -7,11 +7,9 @@ sourceCompatibility = 1.7
 version = '1.0'
 
 jar {
-    baseName = 'jxtract'
-
     manifest {
         attributes 'Implementation-Title': 'JXtract',
-                   'Implementation-Version': version
+                   'Implementation-Version': archiveVersion
     }
 }
 
